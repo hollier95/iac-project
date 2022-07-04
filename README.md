@@ -24,7 +24,7 @@ You have to edit these lines regarding your configuration :
 
 .gitlab-ci.yml
 
-In this file, you will see this variable. It must be sat on your [Gitlab CI/CD variables](https://docs.gitlab.com/ee/ci/variables/)
+In this file, you will see this variable :**$TERRAFORM_SERVICEACCOUNT** It must be sat on your [Gitlab CI/CD variables](https://docs.gitlab.com/ee/ci/variables/)
 
 It concerns Google Cloud Platform service account, if you don't know how to create it, let's read some [Google docs ...](https://cloud.google.com/iam/docs/service-accounts?hl=fr)
 ```shell
