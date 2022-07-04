@@ -1,0 +1,26 @@
+- name: Installation Elastic-Agent
+  hosts: clientservers
+  become: true
+  gather_facts: yes
+
+  tasks: 
+  - name: get elastic .deb file
+    shell: curl -L -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-8.2.2-amd64.deb
+
+  - name: unpack .deb file
+    shell: dpkg -i elastic-agent-8.2.2-amd64.deb 
+
+  - name: enable elastic-agent
+    shell: systemctl enable elastic-agent 
+  
+# - name: move default elastic-agent.yml file
+#    shell: mv /etc/elastic-agent/elastic-agent.yml /etc/elastic-agent/elastic-agent-backup.yml
+
+  - name: Install new elastic-agent.yml file
+    copy:
+      src: "images/elastic-agent.yml"
+      dest: "/etc/elastic-agent/elastic-agent.yml"
+
+  - name: start elastic-agent service
+    shell: systemctl start elastic-agent
+

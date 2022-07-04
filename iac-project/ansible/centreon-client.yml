@@ -1,0 +1,24 @@
+- name: Installation centreon-client
+  hosts: clientservers
+  become: true
+  gather_facts: yes
+
+  tasks: 
+    - name: Install snmpd
+      apt: name=snmpd update_cache=yes state=latest
+
+    - name: Install snmp
+      apt: name=snmp update_cache=yes state=latest
+
+    - name: Copy index test page
+      template:
+        src: "files/snmpd.conf.j2"
+        dest: "/etc/snmp/snmpd.conf"
+
+    - name: Restart snmpd
+      service:
+        name: snmpd
+        state: restarted
+
+
+

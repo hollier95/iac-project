@@ -1,0 +1,8 @@
+clientservers:
+  hosts:
+      X.X.X.X
+
+centreonserver:
+  hosts:
+      X.X.X.X
+

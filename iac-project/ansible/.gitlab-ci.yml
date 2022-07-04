@@ -1,0 +1,32 @@
+stages:
+ - deploy
+
+
+Deploy:
+ stage: deploy
+ before_script:
+    - 'which git || ( apt-get update -y && apt-get install git -yq )'
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -yq )'
+    - apt-get update && apt-get install python-netaddr -yq
+    - apt-get install python3 -yq
+    - eval $(ssh-agent -t 1h -s)
+    - mkdir ~/.ssh
+    - chmod 0700 ~/.ssh
+    - touch ~/.ssh/config
+    - chmod 0600 ~/.ssh/config
+    - echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+    - echo "$ANSIBLE_SSH_PRIV" > ~/.ssh/ansible.key
+    - echo -e "Host *\n\tUser $ANSIBLE_USER\n\tIdentityFile ~/.ssh/ansible.key" >> ~/.ssh/config
+    - cat ~/.ssh/config
+    - chmod 0400 ~/.ssh/*.key
+ script: 
+  #- ansible-playbook -i inventory.yml check-machine.yml -v
+  - ansible-playbook -i inventory.yml certbot.yml
+  - ansible-playbook -i inventory.yml apache.yml
+  - ansible-playbook -i inventory.yml elastic-agent-install.yml
+  - ansible-playbook -i inventory.yml centreon-client.yml
+  - ansible-playbook -i inventory.yml centreon-server.yml
+  #- ansible-playbook -i inventory.yml test-ansible.yml
+ tags:
+  - tags
+

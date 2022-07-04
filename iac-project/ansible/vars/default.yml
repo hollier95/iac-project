@@ -1,0 +1,8 @@
+app_user: "XXX"
+http_host:  "{{ ansible_hostname }}.foo.org"
+http_conf: "{{ ansible_hostname }}.foo.org.conf"
+http_port: "80"
+https_port: "443"
+disable_default: true
+client_centreon: "foo"
+ipclient_centreon: "X.X.X.X"

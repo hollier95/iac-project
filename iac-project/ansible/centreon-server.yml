@@ -1,0 +1,42 @@
+- name: Installation centreon-client
+  hosts: centreonserver
+  become: true
+  gather_facts: yes
+  
+  tasks:
+    - include_vars:
+        dir: vars
+        files_matching: default.yml
+
+    - name: add MIB fo linux servers
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a ADD -v "{{ client_centreon }};{{ client_centreon }};{{ ipclient_centreon }};OS-Linux-SNMP-custom;central;Linux"
+    
+    - name: setting snm community
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a setparam -v "{{ client_centreon }};snmp_community;public"
+
+    - name: snmpd version 2c
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a setparam -v "{{ client_centreon }};snmp_version;2c"
+
+    - name: add timezone
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a setparam -v "{{ client_centreon }};timezone;Europe/Paris"
+
+    - name: Modify check period
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a setparam -v "{{ client_centreon }};check_period;24x7"
+
+    - name: Modify max check attemps
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a setparam -v "{{ client_centreon }};max_check_attempts;1"
+
+    - name: Modify check interval
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a setparam -v "{{ client_centreon }};check_interval;1"
+
+    - name: Modify retry check interval
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a setparam -v "{{ client_centreon }};retry_check_interval;3"
+    
+    - name: add template to host
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a addtemplate -v "{{ client_centreon }};OS-Linux-SNMP-custom"
+
+    - name: apply template to services host
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -o HOST -a applytpl -v "{{ client_centreon }}"
+
+    - name: reexecute pollers
+      shell: /bin/centreon -u admin -p {{ centron_pwd }} -a APPLYCFG -v "Central"
