@@ -43,3 +43,21 @@ main.tf :
 ```
 
 ## In ansible folder 
+
+Each service configuration is located in a .yml file, they contain packets installation and their configuration.
+
+**templates/files** : contains jinja2 files regarding apache, snmpd and elastic-agent configuration files.
+
+You have nothing to modify to make the config work.
+
+**vars** : contain a default.yml which defines some jinja variables
+here you have to modify these lines regarding your configuration :
+```shell
+app_user: "XXX" 
+http_host:  "{{ ansible_hostname }}.foo.org"
+http_conf: "{{ ansible_hostname }}.foo.org.conf"
+```
+```shell
+client_centreon: "foo"
+ipclient_centreon: "X.X.X.X"
+```
