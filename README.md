@@ -92,7 +92,7 @@ hosts: centreonserver
 ```
 The host here is not the client but the centreon server, so in **inventory.yml** you have to add centreon's IP adress :
 ```shell
-lientservers:
+clientservers:
   hosts:
       X.X.X.X
 
