@@ -74,3 +74,35 @@ It concerns these lines :
 **$ANSIBLE_USER** is the user linked to your ssh key
 
 - **apache.yml** : these yaml file installs apache packets and import jinja2 files from **templates/files**, it enables SSL and Rewrite module, and allow 80 and 443 port on internal firewall.
+- **certbot.yml** : these config file has as goal to generate SSL certificates which are delivered from Letsencrypt certification auhtority
+```shell
+  - name: generate certifcate
+    shell: certbot certonly --standalone --non-interactive --agree-tos -m foo@bar.org -d "$(hostname).domain.tld"
+```
+You must indicate email adress to receive notifications about certificates expiration, and after type which host/vhost you want to be certified. 
+- **centreon-client.yml** : it's the yaml file which configures snmpd service, first it checks if the service exists. If not it will install it. 
+It uses a jinja2 file to configure snmpd service to /etc/snmpd/snmpd.conf 
+```shell
+agentAdrress udp:{{ ansible_host }}:161
+```
+It's the only one line which is templated but you can edit this file as you want.
+- **centreon-server.yml** : here we use centreon CLI (Command Line API) to configure centreon server. The goal of this file is to add client hosts to monitoring dashboard. The default community used by default is *public* but you can change it with yours. 
+```shell
+hosts: centreonserver
+```
+The host here is not the client but the centreon server, so in **inventory.yml** you have to add centreon's IP adress :
+```shell
+lientservers:
+  hosts:
+      X.X.X.X
+
+centreonserver:
+  hosts:
+      X.X.X.X   # <--Just here
+```
+In /vars/default.yml, you must edit  these lines regarding your configuration :
+```shell
+client_centreon: "foo" # <-- client hostname
+ipclient_centreon: "X.X.X.X" # <-- client IP adress
+centreon_pwd: "xxxxxxxx"  # <-- centreon server db password
+```
