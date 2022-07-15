@@ -12,6 +12,8 @@ To manage to execute all these scripts, you will have to have built :
 - Gitlab EE/CE server
 - Gitlab runners registered with yout Gitlab projects 
 - Servers are able to communicate between them with https(443) and ssh(22)
+- Centreon Server
+- Elastic Server
 
 First, clone [iac-project](https://github.com/hollier95/iac-project/tree/main/iac-project).
 
