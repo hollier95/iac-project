@@ -110,3 +110,7 @@ centreon_pwd: "xxxxxxxx"  # <-- centreon server db password
 First, it installs packages regarding the service and after it configures the agent.
 In /images/elastic-agent.yml, I gave an example of **elastic-agent.yml** but you will have to download it from your Elastic server, if you don't know how, you can read this doc : https://www.elastic.co/guide/en/fleet/current/create-standalone-agent-policy.html
 
+
+Enjoy and don't hesitate to contact me if some things are not understood !
+
+
