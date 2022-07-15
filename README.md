@@ -100,9 +100,13 @@ centreonserver:
   hosts:
       X.X.X.X   # <--Just here
 ```
-In /vars/default.yml, you must edit  these lines regarding your configuration :
+In **/vars/default.yml**, you must edit  these lines regarding your configuration :
 ```shell
 client_centreon: "foo" # <-- client hostname
 ipclient_centreon: "X.X.X.X" # <-- client IP adress
 centreon_pwd: "xxxxxxxx"  # <-- centreon server db password
 ```
+- **elastic-agent-install.yml** : this file concerns elastic-agent integration for clients machines.
+First, it installs packages regarding the service and after it configures the agent.
+In /images/elastic-agent.yml, I gave an example of **elastic-agent.yml** but you will have to download it from your Elastic server, if you don't know how, you can read this doc : https://www.elastic.co/guide/en/fleet/current/create-standalone-agent-policy.html
+
